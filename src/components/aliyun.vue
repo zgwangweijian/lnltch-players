@@ -29,32 +29,32 @@ onMounted(async () => {
 //   }, 500)
 })
 // cdn和进度分开返回
-const getVideoCDN = (videoId: string): Promise<Options["sources"]> => {
-  console.log(videoId, "=======get videoId CDN")
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          name: "1080p",
-          url: "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/mp4/1_1920x1080.mp4"
-        },
-        {
-          name: "720p",
-          url: "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/mp4/1_1920x1080.mp4"
-        }
-      ])
-    }, 500)
-  })
-  setTimeout(() => {}, 500)
-}
-const getVideoProgress = (videoId: string): Promise<number> => {
-  console.log(videoId, "=======get videoId Progress")
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(5)
-    }, 100)
-  })
-}
+// const getVideoCDN = (videoId: string): Promise<Options["sources"]> => {
+//   console.log(videoId, "=======get videoId CDN")
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve([
+//         {
+//           name: "1080p",
+//           url: "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/mp4/1_1920x1080.mp4"
+//         },
+//         {
+//           name: "720p",
+//           url: "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/mp4/1_1920x1080.mp4"
+//         }
+//       ])
+//     }, 500)
+//   })
+//   setTimeout(() => {}, 500)
+// }
+// const getVideoProgress = (videoId: string): Promise<number> => {
+//   console.log(videoId, "=======get videoId Progress")
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(5)
+//     }, 100)
+//   })
+// }
 
 // cdn和进度合并返回
 const getVideoCDNAndProgress = (videoId: string) => {
@@ -87,6 +87,7 @@ const initVideoPlayer = (videoId: string) => {
         return progress.value
       },
       saveTime: (memoryVideo, currentTime) => {
+        console.log(memoryVideo,currentTime)
         //保存进度
       }
     },
@@ -101,7 +102,9 @@ const initVideoPlayer = (videoId: string) => {
     <div class="aliyun-player-container">
       <div id="video" class="video-player" ref="videoRef"></div>
     </div>
-    <div class="aliyun-player-method"></div>
+    <div class="aliyun-player-method">
+      
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>

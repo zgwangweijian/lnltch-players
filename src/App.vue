@@ -1,31 +1,57 @@
 <script setup lang="ts">
-import { onMounted } from "vue"
-import lnltchPlayer from "@lnltch-players/aliyun"
-import "@lnltch-players/aliyun/dist/index.css"
+import { ref } from "vue"
+import AliyunPlayer from "./components/aliyun.vue"
+import VideojsPlayer from "./components/videojs.vue"
 
-onMounted(() => {
-  new lnltchPlayer(
-    "video",
-    {
-      licenseDomain: "localhost",
-      licenseKey: "fPns7ih4YTqRoFcZOc6674e05f2854a6082e3dac2e1bfa961",
-      memoryVideo:"bipbop_16x9_variant",
-      sources:
-        "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
-      // url: "http://localhost/demo2.mp4"
-    },
-    () => {}
-  )
-})
+const choosedPlayerKey = ref<string>("aliyun")
+
+const choosePlayer = (key: string) => {
+  if (choosedPlayerKey.value === key) {
+    return
+  }
+  choosedPlayerKey.value = key
+}
 </script>
 
 <template>
-  <div class="video-container" id="video"></div>
+  <div class="app-container">
+    <div class="video-player-choose">
+      <div class="choose-item" @click="choosePlayer('aliyun')">
+        阿里云播放器
+      </div>
+      <div class="choose-item" @click="choosePlayer('videojs')">
+        videojs播放器
+      </div>
+    </div>
+    <div class="video-player-container">
+      <AliyunPlayer v-if="choosedPlayerKey === 'aliyun'"></AliyunPlayer>
+      <VideojsPlayer v-else-if="choosedPlayerKey === 'videojs'"></VideojsPlayer>
+    </div>
+  </div>
+
+  <div class="videojs"></div>
 </template>
 
-<style lang="css" scoped>
-.video-container {
-  width: 1200px;
-  height: 800px;
+<style lang="scss" scoped>
+.app-container {
+  width: 100%;
+  position: relative;
+  .video-player-choose {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    .choose-item {
+      margin-left: 30px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+  .video-player-container {
+    margin-top: 60px;
+  }
 }
 </style>

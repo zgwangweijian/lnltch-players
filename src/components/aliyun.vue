@@ -3,6 +3,8 @@ import { ref, onMounted } from "vue"
 import lnltchPlayer from "@lnltch-players/aliyun"
 import type { Options } from "@lnltch-players/aliyun"
 import "@lnltch-players/aliyun/dist/index.css"
+import audioAAC from "../assets/audio.aac"
+import poster from "../assets/poster.jpg"
 
 const player = ref<lnltchPlayer>()
 
@@ -119,13 +121,15 @@ const initVideoPlayer = (videoId: string) => {
         {
           id: "1",
           name: "第一集 播放器的安装和使用（1）",
-          poster: "http://localhost/poster.jpg",
+          // poster: "http://localhost/poster.jpg",
+          poster:poster,
           duration: 700
         },
         {
           id: "2",
           name: "第二集 播放器的安装和使用（2）",
-          poster: "http://localhost/poster.jpg",
+          // poster: "http://localhost/poster.jpg",
+          poster:poster,
           duration: 600
         }
       ],
@@ -136,13 +140,45 @@ const initVideoPlayer = (videoId: string) => {
     }
   )
 }
+const playAudio = () => {
+  player.value?.dispose()
+  player.value = new lnltchPlayer(
+    "video",
+    {
+      type: "audio",
+      licenseDomain: "localhost",
+      licenseKey: "fPns7ih4YTqRoFcZOc6674e05f2854a6082e3dac2e1bfa961",
+      memoryVideo: 'audio1',
+      sources: audioAAC,
+      autoSize: true,
+      autoplay: true,
+      skipStep: 5,
+      showPlayNext: true,
+      handlePlayNext: () => {
+        console.log("点击触发下一集")
+      },
+      watchStartTime: progress.value,
+      saveTimeInterval: 15,
+      saveTime: (memoryVideo, currentTime) => {
+        console.log(memoryVideo, currentTime)
+        //保存进度
+      },
+    },
+    () => {
+      //ready
+    }
+  )
+}
+
 </script>
 <template>
   <div class="aliyun-player-wrapper">
     <div class="aliyun-player-container">
       <div id="video" class="video-player" ref="videoRef"></div>
     </div>
-    <div class="aliyun-player-method"></div>
+    <div class="aliyun-player-method">
+      <button @click="playAudio">播放音频</button>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -153,11 +189,14 @@ const initVideoPlayer = (videoId: string) => {
   display: flex;
   .aliyun-player-container {
     width: 800px;
-    height: 600px;
+    height: 800px;
     .video-player {
       width: 100%;
       height: 100%;
     }
+  }
+  .aliyun-player-method {
+    margin-left: 20px;
   }
 }
 </style>
